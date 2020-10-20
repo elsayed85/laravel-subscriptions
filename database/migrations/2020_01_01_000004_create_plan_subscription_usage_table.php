@@ -1,4 +1,5 @@
 <?php
+namespace elsayed85\Subscriptions;
 
 declare(strict_types=1);
 
@@ -14,10 +15,10 @@ class CreatePlanSubscriptionUsageTable extends Migration
      */
     public function up(): void
     {
-        Schema::create(config('rinvex.subscriptions.tables.plan_subscription_usage'), function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('subscription_id')->unsigned();
-            $table->integer('feature_id')->unsigned();
+        Schema::create(config('elsayed85.subscriptions.tables.plan_subscription_usage'), function (Blueprint $table) {
+            $table->id();
+            $table->integer('unsignedBigInteger');
+            $table->unsignedBigInteger('feature_id');
             $table->smallInteger('used')->unsigned();
             $table->dateTime('valid_until')->nullable();
             $table->string('timezone')->nullable();
@@ -25,9 +26,9 @@ class CreatePlanSubscriptionUsageTable extends Migration
             $table->softDeletes();
 
             $table->unique(['subscription_id', 'feature_id']);
-            $table->foreign('subscription_id')->references('id')->on(config('rinvex.subscriptions.tables.plan_subscriptions'))
+            $table->foreign('subscription_id')->references('id')->on(config('elsayed85.subscriptions.tables.plan_subscriptions'))
                   ->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('feature_id')->references('id')->on(config('rinvex.subscriptions.tables.plan_features'))
+            $table->foreign('feature_id')->references('id')->on(config('elsayed85.subscriptions.tables.plan_features'))
                   ->onDelete('cascade')->onUpdate('cascade');
         });
     }
@@ -39,6 +40,6 @@ class CreatePlanSubscriptionUsageTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(config('rinvex.subscriptions.tables.plan_subscription_usage'));
+        Schema::dropIfExists(config('elsayed85.subscriptions.tables.plan_subscription_usage'));
     }
 }

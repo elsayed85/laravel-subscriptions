@@ -1,5 +1,5 @@
 {
-    "name": "rinvex/laravel-subscriptions",
+    "name": "elsayed85/laravel-subscriptions",
     "description": "Rinvex Subscriptions is a flexible plans and subscription management system for Laravel, with the required tools to run your SAAS like services efficiently. It's simple architecture, accompanied by powerful underlying to afford solid platform for your business.",
     "type": "library",
     "keywords": [
@@ -13,12 +13,6 @@
     ],
     "license": "MIT",
     "homepage": "https://rinvex.com",
-    "support": {
-        "email": "help@rinvex.com",
-        "issues": "https://github.com/rinvex/laravel-subscriptions/issues",
-        "source": "https://github.com/rinvex/laravel-subscriptions",
-        "docs": "https://github.com/rinvex/laravel-subscriptions/blob/master/README.md"
-    },
     "authors": [
         {
             "name": "Rinvex LLC",
@@ -33,7 +27,7 @@
         },
         {
             "name": "The Generous Laravel Community",
-            "homepage": "https://github.com/rinvex/laravel-subscriptions/contributors"
+            "homepage": "https://github.com/elsayed85/laravel-subscriptions/contributors"
         }
     ],
     "require": {
@@ -42,9 +36,8 @@
         "illuminate/database": "^7.0.0",
         "illuminate/support": "^7.0.0",
         "rinvex/laravel-support": "^4.0.0",
-        "spatie/eloquent-sortable": "^3.7.0",
-        "spatie/laravel-sluggable": "^2.2.0",
-        "spatie/laravel-translatable": "^4.2.0"
+        "cviebrock/eloquent-sluggable" : "^7.0",
+        "astrotomic/laravel-translatable" : "^11.9.0"
     },
     "require-dev": {
         "codedungeon/phpunit-result-printer": "^0.27.0",
@@ -56,12 +49,12 @@
             "database"
         ],
         "psr-4": {
-            "Rinvex\\Subscriptions\\": "src"
+            "elsayed85\\Subscriptions\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Rinvex\\Subscriptions\\Tests\\": "tests"
+            "elsayed85\\Subscriptions\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -75,7 +68,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Rinvex\\Subscriptions\\Providers\\SubscriptionsServiceProvider"
+                "elsayed85\\Subscriptions\\Providers\\SubscriptionsServiceProvider"
             ]
         }
     },

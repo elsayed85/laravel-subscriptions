@@ -1,5 +1,7 @@
 <?php
 
+namespace elsayed85\Subscriptions;
+
 declare(strict_types=1);
 
 use Illuminate\Database\Schema\Blueprint;
@@ -14,24 +16,36 @@ class CreatePlanFeaturesTable extends Migration
      */
     public function up(): void
     {
-        Schema::create(config('rinvex.subscriptions.tables.plan_features'), function (Blueprint $table) {
+        Schema::create(config('elsayed85.subscriptions.tables.plan_features'), function (Blueprint $table) {
             // Columns
-            $table->increments('id');
-            $table->integer('plan_id')->unsigned();
+            $table->id();
+            $table->unsignedBigInteger('plan_id');
             $table->string('slug');
-            $table->{$this->jsonable()}('name');
-            $table->{$this->jsonable()}('description')->nullable();
             $table->string('value');
             $table->smallInteger('resettable_period')->unsigned()->default(0);
             $table->string('resettable_interval')->default('month');
-            $table->mediumInteger('sort_order')->unsigned()->default(0);
             $table->timestamps();
             $table->softDeletes();
 
             // Indexes
             $table->unique(['plan_id', 'slug']);
-            $table->foreign('plan_id')->references('id')->on(config('rinvex.subscriptions.tables.plans'))
-                  ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('plan_id')->references('id')->on(config('elsayed85.subscriptions.tables.plans'))
+                ->onDelete('cascade')->onUpdate('cascade');
+        });
+
+        Schema::create('plan_features_translations', function (Blueprint $table) {
+            // mandatory fields
+            $table->id(); // Laravel 5.8+ use bigIncrements() instead of increments()
+            $table->string('locale')->index();
+
+            // Foreign key to the main model
+            $table->unsignedBigInteger('feature_id');
+            $table->unique(['feature_id', 'locale']);
+            $table->foreign('feature_id')->references('id')->on(config('elsayed85.subscriptions.tables.plan_features'))
+                ->onDelete('cascade')->onUpdate('cascade');
+            // Actual fields you want to translate
+            $table->string('name');
+            $table->longText('description')->nullable();
         });
     }
 
@@ -42,20 +56,7 @@ class CreatePlanFeaturesTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(config('rinvex.subscriptions.tables.plan_features'));
-    }
-
-    /**
-     * Get jsonable column data type.
-     *
-     * @return string
-     */
-    protected function jsonable(): string
-    {
-        $driverName = DB::connection()->getPdo()->getAttribute(PDO::ATTR_DRIVER_NAME);
-        $dbVersion = DB::connection()->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION);
-        $isOldVersion = version_compare($dbVersion, '5.7.8', 'lt');
-
-        return $driverName === 'mysql' && $isOldVersion ? 'text' : 'json';
+        Schema::dropIfExists(config('elsayed85.subscriptions.tables.plan_features'));
+        Schema::dropIfExists(config('plan_features_translations'));
     }
 }

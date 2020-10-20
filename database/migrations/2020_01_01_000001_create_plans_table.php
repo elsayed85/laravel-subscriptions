@@ -1,4 +1,5 @@
 <?php
+namespace elsayed85\Subscriptions;
 
 declare(strict_types=1);
 
@@ -14,12 +15,10 @@ class CreatePlansTable extends Migration
      */
     public function up(): void
     {
-        Schema::create(config('rinvex.subscriptions.tables.plans'), function (Blueprint $table) {
+        Schema::create(config('elsayed85.subscriptions.tables.plans'), function (Blueprint $table) {
             // Columns
-            $table->increments('id');
+            $table->id();
             $table->string('slug');
-            $table->{$this->jsonable()}('name');
-            $table->{$this->jsonable()}('description')->nullable();
             $table->boolean('is_active')->default(true);
             $table->decimal('price')->default('0.00');
             $table->decimal('signup_fee')->default('0.00');
@@ -41,6 +40,21 @@ class CreatePlansTable extends Migration
             // Indexes
             $table->unique('slug');
         });
+
+        Schema::create('plan_translations', function (Blueprint $table) {
+            // mandatory fields
+            $table->id(); // Laravel 5.8+ use bigIncrements() instead of increments()
+            $table->string('locale')->index();
+
+            // Foreign key to the main model
+            $table->unsignedBigInteger('plan_id');
+            $table->unique(['plan_id', 'locale']);
+            $table->foreign('plan_id')->references('id')->on('plans')->onDelete('cascade');
+
+            // Actual fields you want to translate
+            $table->string('name');
+            $table->longText('description')->nullable();
+        });
     }
 
     /**
@@ -50,20 +64,7 @@ class CreatePlansTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(config('rinvex.subscriptions.tables.plans'));
-    }
-
-    /**
-     * Get jsonable column data type.
-     *
-     * @return string
-     */
-    protected function jsonable(): string
-    {
-        $driverName = DB::connection()->getPdo()->getAttribute(PDO::ATTR_DRIVER_NAME);
-        $dbVersion = DB::connection()->getPdo()->getAttribute(PDO::ATTR_SERVER_VERSION);
-        $isOldVersion = version_compare($dbVersion, '5.7.8', 'lt');
-
-        return $driverName === 'mysql' && $isOldVersion ? 'text' : 'json';
+        Schema::dropIfExists(config('elsayed85.subscriptions.tables.plans'));
+        Schema::dropIfExists("plan_translations");
     }
 }

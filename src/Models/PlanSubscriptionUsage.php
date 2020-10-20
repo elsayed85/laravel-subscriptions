@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Rinvex\Subscriptions\Models;
+namespace elsayed85\Subscriptions\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Rinvex\Support\Traits\ValidatingTrait;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Rinvex\Support\Traits\ValidatingTrait;
 
 /**
- * Rinvex\Subscriptions\Models\PlanSubscriptionUsage.
+ * elsayed85\Subscriptions\Models\PlanSubscriptionUsage.
  *
  * @property int                                               $id
  * @property int                                               $subscription_id
@@ -21,18 +21,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Carbon\Carbon|null                               $created_at
  * @property \Carbon\Carbon|null                               $updated_at
  * @property \Carbon\Carbon|null                               $deleted_at
- * @property-read \Rinvex\Subscriptions\Models\PlanFeature      $feature
- * @property-read \Rinvex\Subscriptions\Models\PlanSubscription $subscription
+ * @property-read \elsayed85\Subscriptions\Models\PlanFeature      $feature
+ * @property-read \elsayed85\Subscriptions\Models\PlanSubscription $subscription
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage byFeatureName($featureName)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereDeletedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereFeatureId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereSubscriptionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereUsed($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\Rinvex\Subscriptions\Models\PlanSubscriptionUsage whereValidUntil($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\elsayed85\Subscriptions\Models\PlanSubscriptionUsage byFeatureName($featureName)
+ * @method static \Illuminate\Database\Eloquent\Builder|\elsayed85\Subscriptions\Models\PlanSubscriptionUsage whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\elsayed85\Subscriptions\Models\PlanSubscriptionUsage whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\elsayed85\Subscriptions\Models\PlanSubscriptionUsage whereFeatureId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\elsayed85\Subscriptions\Models\PlanSubscriptionUsage whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\elsayed85\Subscriptions\Models\PlanSubscriptionUsage whereSubscriptionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\elsayed85\Subscriptions\Models\PlanSubscriptionUsage whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\elsayed85\Subscriptions\Models\PlanSubscriptionUsage whereUsed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\elsayed85\Subscriptions\Models\PlanSubscriptionUsage whereValidUntil($value)
  * @mixin \Eloquent
  */
 class PlanSubscriptionUsage extends Model
@@ -92,10 +92,10 @@ class PlanSubscriptionUsage extends Model
     {
         parent::__construct($attributes);
 
-        $this->setTable(config('rinvex.subscriptions.tables.plan_subscription_usage'));
+        $this->setTable(config('elsayed85.subscriptions.tables.plan_subscription_usage'));
         $this->setRules([
-            'subscription_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plan_subscriptions').',id',
-            'feature_id' => 'required|integer|exists:'.config('rinvex.subscriptions.tables.plan_features').',id',
+            'subscription_id' => 'required|integer|exists:'.config('elsayed85.subscriptions.tables.plan_subscriptions').',id',
+            'feature_id' => 'required|integer|exists:'.config('elsayed85.subscriptions.tables.plan_features').',id',
             'used' => 'required|integer',
             'valid_until' => 'nullable|date',
         ]);
@@ -108,7 +108,7 @@ class PlanSubscriptionUsage extends Model
      */
     public function feature(): BelongsTo
     {
-        return $this->belongsTo(config('rinvex.subscriptions.models.plan_feature'), 'feature_id', 'id', 'feature');
+        return $this->belongsTo(config('elsayed85.subscriptions.models.plan_feature'), 'feature_id', 'id', 'feature');
     }
 
     /**
@@ -118,7 +118,7 @@ class PlanSubscriptionUsage extends Model
      */
     public function subscription(): BelongsTo
     {
-        return $this->belongsTo(config('rinvex.subscriptions.models.plan_subscription'), 'subscription_id', 'id', 'subscription');
+        return $this->belongsTo(config('elsayed85.subscriptions.models.plan_subscription'), 'subscription_id', 'id', 'subscription');
     }
 
     /**
@@ -131,7 +131,7 @@ class PlanSubscriptionUsage extends Model
      */
     public function scopeByFeatureName(Builder $builder, string $featureName): Builder
     {
-        $feature = PlanFeature::where('name', $featureName)->first();
+        $feature = PlanFeature::whereTranslation('name', $featureName)->first();
 
         return $builder->where('feature_id', $feature->getKey() ?? null);
     }
