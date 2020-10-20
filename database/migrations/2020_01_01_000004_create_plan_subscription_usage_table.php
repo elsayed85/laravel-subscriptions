@@ -15,7 +15,7 @@ class CreatePlanSubscriptionUsageTable extends Migration
     {
         Schema::create(config('elsayed85.subscriptions.tables.plan_subscription_usage'), function (Blueprint $table) {
             $table->id();
-            $table->integer('unsignedBigInteger');
+            $table->unsignedBigInteger('subscription_id');
             $table->unsignedBigInteger('feature_id');
             $table->smallInteger('used')->unsigned();
             $table->dateTime('valid_until')->nullable();

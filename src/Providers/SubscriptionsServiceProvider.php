@@ -36,7 +36,7 @@ class SubscriptionsServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'elsayed85.subscriptions');
+        $this->mergeConfigFrom(realpath(__DIR__.'/../../config/config.php'), 'subscriptions');
 
         // Bind eloquent models to IoC container
         $this->app->singleton('elsayed85.subscriptions.plan', $planModel = $this->app['config']['elsayed85.subscriptions.models.plan']);
