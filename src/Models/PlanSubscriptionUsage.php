@@ -94,8 +94,8 @@ class PlanSubscriptionUsage extends Model
 
         $this->setTable(config('elsayed85.subscriptions.tables.plan_subscription_usage'));
         $this->setRules([
-            'subscription_id' => 'required|integer|exists:'.config('elsayed85.subscriptions.tables.plan_subscriptions').',id',
-            'feature_id' => 'required|integer|exists:'.config('elsayed85.subscriptions.tables.plan_features').',id',
+            'subscription_id' => 'required|integer|exists:' . config('elsayed85.subscriptions.tables.plan_subscriptions') . ',id',
+            'feature_id' => 'required|integer|exists:' . config('elsayed85.subscriptions.tables.plan_features') . ',id',
             'used' => 'required|integer',
             'valid_until' => 'nullable|date',
         ]);
@@ -133,6 +133,20 @@ class PlanSubscriptionUsage extends Model
     {
         $feature = PlanFeature::whereTranslation('name', $featureName)->first();
 
+        return $builder->where('feature_id', $feature->getKey() ?? null);
+    }
+
+    /**
+     * Scope subscription usage by feature slug.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param string                                $featureSlug
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByFeatureSlug(Builder $builder, $featureSlug)
+    {
+        $feature = PlanFeature::where('slug', $featureSlug)->first();
         return $builder->where('feature_id', $feature->getKey() ?? null);
     }
 

@@ -4,7 +4,7 @@ namespace elsayed85\Subscriptions\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PlanFeatureTranslation extends Model
+class PlanSubscriptionTranslation extends Model
 {
     /**
      * The table associated with the model.

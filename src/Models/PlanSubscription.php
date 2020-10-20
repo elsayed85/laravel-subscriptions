@@ -473,7 +473,7 @@ class PlanSubscription extends Model implements TranslatableContract
      */
     public function reduceFeatureUsage(string $featureSlug, int $uses = 1): ?PlanSubscriptionUsage
     {
-        $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
+        $usage = $this->usage()->byFeatureSlug($featureSlug)->firstOrFail();
 
         if (is_null($usage)) {
             return null;
@@ -496,10 +496,14 @@ class PlanSubscription extends Model implements TranslatableContract
     public function canUseFeature(string $featureSlug): bool
     {
         $featureValue = $this->getFeatureValue($featureSlug);
-        $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
+        $usage = $this->usage()->byFeatureSlug($featureSlug)->firstOrFail();
 
         if ($featureValue === 'true') {
             return true;
+        }
+
+        if (!$usage) {
+            $usage = new PlanSubscriptionUsage();
         }
 
         // If the feature value is zero, let's return false since
@@ -521,7 +525,11 @@ class PlanSubscription extends Model implements TranslatableContract
      */
     public function getFeatureUsage(string $featureSlug): int
     {
-        $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
+        $usage = $this->usage()->byFeatureSlug($featureSlug)->firstOrFail();
+
+        if (!$usage) {
+            return 0;
+        }
 
         return !$usage->expired() ? $usage->used : 0;
     }
