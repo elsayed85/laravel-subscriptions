@@ -174,6 +174,7 @@ class Plan extends Model implements TranslatableContract
             'prorate_extend_due' => 'nullable|integer|max:150',
             'active_subscribers_limit' => 'nullable|integer|max:10000',
         ]);
+    }
 
     /**
      * Return the sluggable configuration array for this model.
