@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace elsayed85\Subscriptions\Providers;
 
-use elsayed85\Subscriptions\Models\Plan;
-use Illuminate\Support\ServiceProvider;
-use elsayed85\Support\Traits\ConsoleTools;
-use elsayed85\Subscriptions\Models\PlanFeature;
-use elsayed85\Subscriptions\Models\PlanSubscription;
-use elsayed85\Subscriptions\Models\PlanSubscriptionUsage;
 use elsayed85\Subscriptions\Console\Commands\MigrateCommand;
 use elsayed85\Subscriptions\Console\Commands\PublishCommand;
 use elsayed85\Subscriptions\Console\Commands\RollbackCommand;
+use elsayed85\Subscriptions\Models\Plan;
+use elsayed85\Subscriptions\Models\PlanFeature;
+use elsayed85\Subscriptions\Models\PlanSubscription;
+use elsayed85\Subscriptions\Models\PlanSubscriptionUsage;
+use Illuminate\Support\ServiceProvider;
+use Rinvex\Support\Traits\ConsoleTools;
 
 class SubscriptionsServiceProvider extends ServiceProvider
 {
