@@ -164,17 +164,16 @@ class Plan extends Model implements TranslatableContract
             'signup_fee' => 'required|numeric',
             'currency' => 'required|alpha|size:3',
             'trial_period' => 'sometimes|integer|max:10000',
-            'trial_interval' => 'sometimes|in:hour,day,week,month',
+            'trial_interval' => 'sometimes|in:hour,day,week,month,year',
             'invoice_period' => 'sometimes|integer|max:10000',
-            'invoice_interval' => 'sometimes|in:hour,day,week,month',
+            'invoice_interval' => 'sometimes|in:hour,day,week,month,year',
             'grace_period' => 'sometimes|integer|max:10000',
-            'grace_interval' => 'sometimes|in:hour,day,week,month',
+            'grace_interval' => 'sometimes|in:hour,day,week,month,year',
             'prorate_day' => 'nullable|integer|max:150',
             'prorate_period' => 'nullable|integer|max:150',
             'prorate_extend_due' => 'nullable|integer|max:150',
             'active_subscribers_limit' => 'nullable|integer|max:10000',
         ]);
-    }
 
     /**
      * Return the sluggable configuration array for this model.
