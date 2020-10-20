@@ -2,7 +2,9 @@
 
 namespace elsayed85\Subscriptions\Models;
 
-class PlanTranslation extends model
+use Illuminate\Database\Eloquent\Model;
+
+class PlanTranslation extends Model
 {
     /**
      * The table associated with the model.

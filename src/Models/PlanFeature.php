@@ -95,6 +95,9 @@ class PlanFeature extends Model implements TranslatableContract
         'description',
     ];
 
+    public $translationForeignKey = "feature_id";
+
+
     /**
      * The default rules that the model will validate against.
      *
@@ -122,8 +125,6 @@ class PlanFeature extends Model implements TranslatableContract
         $this->setTable(config('elsayed85.subscriptions.tables.plan_features'));
         $this->setRules([
             'plan_id' => 'required|integer|exists:' . config('elsayed85.subscriptions.tables.plans') . ',id',
-            'name' => 'required|string|strip_tags|max:150',
-            'description' => 'nullable|string|max:10000',
             'value' => 'required|string',
             'resettable_period' => 'sometimes|integer',
             'resettable_interval' => 'sometimes|in:hour,day,week,month',

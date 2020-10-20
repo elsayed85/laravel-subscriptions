@@ -129,6 +129,9 @@ class Plan extends Model implements TranslatableContract
         'description',
     ];
 
+    public $translationForeignKey = "plan_id";
+
+
 
     /**
      * The default rules that the model will validate against.
@@ -156,8 +159,6 @@ class Plan extends Model implements TranslatableContract
 
         $this->setTable(config('elsayed85.subscriptions.tables.plans'));
         $this->setRules([
-            'name' => 'required|string|strip_tags|max:150',
-            'description' => 'nullable|string|max:10000',
             'is_active' => 'sometimes|boolean',
             'price' => 'required|numeric',
             'signup_fee' => 'required|numeric',
