@@ -431,7 +431,7 @@ class PlanSubscription extends Model implements TranslatableContract
      * @param string $featureSlug
      * @param int    $uses
      *
-     * @return \elsayed85\Subscriptions\Models\PlanSubscriptionUsage
+     * @return \Rinvex\Subscriptions\Models\PlanSubscriptionUsage
      */
     public function recordFeatureUsage(string $featureSlug, int $uses = 1, bool $incremental = true): PlanSubscriptionUsage
     {
@@ -469,11 +469,11 @@ class PlanSubscription extends Model implements TranslatableContract
      * @param string $featureSlug
      * @param int    $uses
      *
-     * @return \elsayed85\Subscriptions\Models\PlanSubscriptionUsage|null
+     * @return \Rinvex\Subscriptions\Models\PlanSubscriptionUsage|null
      */
     public function reduceFeatureUsage(string $featureSlug, int $uses = 1): ?PlanSubscriptionUsage
     {
-        $usage = $this->usage()->byFeatureSlug($featureSlug)->firstOrFail();
+        $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
 
         if (is_null($usage)) {
             return null;
@@ -496,7 +496,7 @@ class PlanSubscription extends Model implements TranslatableContract
     public function canUseFeature(string $featureSlug): bool
     {
         $featureValue = $this->getFeatureValue($featureSlug);
-        $usage = $this->usage()->byFeatureSlug($featureSlug)->firstOrFail();
+        $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
 
         if ($featureValue === 'true') {
             return true;
@@ -525,7 +525,7 @@ class PlanSubscription extends Model implements TranslatableContract
      */
     public function getFeatureUsage(string $featureSlug): int
     {
-        $usage = $this->usage()->byFeatureSlug($featureSlug)->firstOrFail();
+        $usage = $this->usage()->byFeatureSlug($featureSlug)->first();
 
         if (!$usage) {
             return 0;

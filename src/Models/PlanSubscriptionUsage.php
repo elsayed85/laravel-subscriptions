@@ -131,23 +131,16 @@ class PlanSubscriptionUsage extends Model
      */
     public function scopeByFeatureName(Builder $builder, string $featureName): Builder
     {
-        $feature = PlanFeature::whereTranslation('name', $featureName)->first();
+        $feature = PlanFeature::where('name', $featureName)->first();
 
         return $builder->where('feature_id', $feature->getKey() ?? null);
     }
 
-    /**
-     * Scope subscription usage by feature slug.
-     *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param string                                $featureSlug
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
+
     public function scopeByFeatureSlug(Builder $builder, $featureSlug)
     {
         $feature = PlanFeature::where('slug', $featureSlug)->first();
-        return $builder->where('feature_id', $feature->getKey() ?? null);
+        return $builder->where('feature_id', optional($feature)->getKey() ?? null);
     }
 
     /**
