@@ -19,17 +19,17 @@
 
 1. Install the package via composer:
     ```shell
-    composer require rinvex/laravel-subscriptions
+    composer require elsayed85/laravel-subscriptions
     ```
 
 2. Publish resources (migrations and config files):
     ```shell
-    php artisan rinvex:publish:subscriptions
+    php artisan elsayed85:publish:subscriptions
     ```
 
 3. Execute migrations via the following command:
     ```shell
-    php artisan rinvex:migrate:subscriptions
+    php artisan elsayed85:migrate:subscriptions
     ```
 
 4. Done!
@@ -39,12 +39,12 @@
 
 ### Add Subscriptions to User model
 
-**Rinvex Subscriptions** has been specially made for Eloquent and simplicity has been taken very serious as in any other Laravel related aspect. To add Subscription functionality to your User model just use the `\Rinvex\Subscriptions\Traits\HasSubscriptions` trait like this:
+**elsayed85 Subscriptions** has been specially made for Eloquent and simplicity has been taken very serious as in any other Laravel related aspect. To add Subscription functionality to your User model just use the `\elsayed85\Subscriptions\Traits\HasSubscriptions` trait like this:
 
 ```php
 namespace App\Models;
 
-use Rinvex\Subscriptions\Traits\HasSubscriptions;
+use elsayed85\Subscriptions\Traits\HasSubscriptions;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -58,7 +58,7 @@ That's it, we only have to use that trait in our User model! Now your users may 
 ### Create a Plan
 
 ```php
-$plan = app('rinvex.subscriptions.plan')->create([
+$plan = app('elsayed85.subscriptions.plan')->create([
     'name' => 'Pro',
     'description' => 'Pro plan',
     'price' => 9.99,
@@ -85,7 +85,7 @@ $plan->features()->saveMany([
 You can query the plan for further details, using the intuitive API as follows:
 
 ```php
-$plan = app('rinvex.subscriptions.plan')->find(1);
+$plan = app('elsayed85.subscriptions.plan')->find(1);
 
 // Get all plan features                
 $plan->features;
@@ -114,10 +114,10 @@ Say you want to show the value of the feature _pictures_per_listing_ from above.
 $amountOfPictures = $plan->getFeatureByName('pictures_per_listing')->value;
 
 // Query the feature itself directly
-$amountOfPictures = app('rinvex.subscriptions.plan_feature')->where('name', 'pictures_per_listing')->first()->value;
+$amountOfPictures = app('elsayed85.subscriptions.plan_feature')->where('name', 'pictures_per_listing')->first()->value;
 
 // Get feature value through the subscription instance
-$amountOfPictures = app('rinvex.subscriptions.plan_subscription')->find(1)->getFeatureValue('pictures_per_listing');
+$amountOfPictures = app('elsayed85.subscriptions.plan_subscription')->find(1)->getFeatureValue('pictures_per_listing');
 ```
 
 ### Create a Subscription
@@ -126,7 +126,7 @@ You can subscribe a user to a plan by using the `newSubscription()` function ava
 
 ```php
 $user = User::find(1);
-$plan = app('rinvex.subscriptions.plan')->find(1);
+$plan = app('elsayed85.subscriptions.plan')->find(1);
 
 $user->newSubscription('main', $plan);
 ```
@@ -138,7 +138,7 @@ The first argument passed to `newSubscription` method should be the title of the
 You can change subscription plan easily as follows:
 
 ```php
-$plan = app('rinvex.subscriptions.plan')->find(2);
+$plan = app('elsayed85.subscriptions.plan')->find(2);
 $subscription = app('rinvex.subscriptions.plan_subscription')->find(1);
 
 // Change subscription plan
@@ -153,7 +153,7 @@ Plan features are great for fine tuning subscriptions, you can topup certain fea
 
 ```php
 // Find plan feature
-$feature = app('rinvex.subscriptions.plan_feature')->where('name', 'listing_duration_days')->first();
+$feature = app('elsayed85.subscriptions.plan_feature')->where('name', 'listing_duration_days')->first();
 
 // Get feature reset date
 $feature->getResetDate(new \Carbon\Carbon());
@@ -265,34 +265,34 @@ $user->subscription('main')->cancel(true);
 
 ```php
 // Get subscriptions by plan
-$subscriptions = app('rinvex.subscriptions.plan_subscription')->byPlanId($plan_id)->get();
+$subscriptions = app('elsayed85.subscriptions.plan_subscription')->byPlanId($plan_id)->get();
 
 // Get bookings of the given user
 $user = \App\Models\User::find(1);
-$bookingsOfUser = app('rinvex.subscriptions.plan_subscription')->ofUser($user)->get(); 
+$bookingsOfUser = app('elsayed85.subscriptions.plan_subscription')->ofUser($user)->get(); 
 
 // Get subscriptions with trial ending in 3 days
-$subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndingTrial(3)->get();
+$subscriptions = app('elsayed85.subscriptions.plan_subscription')->findEndingTrial(3)->get();
 
 // Get subscriptions with ended trial
-$subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndedTrial()->get();
+$subscriptions = app('elsayed85.subscriptions.plan_subscription')->findEndedTrial()->get();
 
 // Get subscriptions with period ending in 3 days
-$subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndingPeriod(3)->get();
+$subscriptions = app('elsayed85.subscriptions.plan_subscription')->findEndingPeriod(3)->get();
 
 // Get subscriptions with ended period
-$subscriptions = app('rinvex.subscriptions.plan_subscription')->findEndedPeriod()->get();
+$subscriptions = app('elsayed85.subscriptions.plan_subscription')->findEndedPeriod()->get();
 ```
 
 ### Models
 
-**Rinvex Subscriptions** uses 4 models:
+**elsayed85 Subscriptions** uses 4 models:
 
 ```php
-Rinvex\Subscriptions\Models\Plan;
-Rinvex\Subscriptions\Models\PlanFeature;
-Rinvex\Subscriptions\Models\PlanSubscription;
-Rinvex\Subscriptions\Models\PlanSubscriptionUsage;
+elsayed85\Subscriptions\Models\Plan;
+elsayed85\Subscriptions\Models\PlanFeature;
+elsayed85\Subscriptions\Models\PlanSubscription;
+elsayed85\Subscriptions\Models\PlanSubscriptionUsage;
 ```
 
 
