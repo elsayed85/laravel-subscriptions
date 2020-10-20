@@ -276,6 +276,20 @@ class PlanSubscription extends Model implements TranslatableContract
         return $this;
     }
 
+
+    public function resume()
+    {
+        if ($this->ended() && $this->canceled()) {
+            throw new LogicException('Unable to resume canceled ended subscription.');
+        }
+
+        $this->canceled_at = null;
+        $this->save();
+
+        return $this;
+    }
+
+
     /**
      * Change subscription plan.
      *
