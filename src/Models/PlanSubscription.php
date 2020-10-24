@@ -92,7 +92,6 @@ class PlanSubscription extends Model implements TranslatableContract
         'user_id' => 'integer',
         'user_type' => 'string',
         'plan_id' => 'integer',
-        'slug' => 'string',
         'trial_ends_at' => 'datetime',
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',
@@ -173,19 +172,6 @@ class PlanSubscription extends Model implements TranslatableContract
         });
     }
 
-    /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'name'
-            ]
-        ];
-    }
     /**
      * Get the owning user.
      *
