@@ -69,7 +69,7 @@ class Plan extends Model implements TranslatableContract
     use Sluggable;
     use Translatable;
     use ValidatingTrait;
-    use HasVouchers, CanRedeemVouchers;
+    use HasVouchers;
 
     /**
      * {@inheritdoc}
