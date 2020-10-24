@@ -6,6 +6,8 @@ namespace elsayed85\Subscriptions\Models;
 
 use Astrotomic\Translatable\Contracts\Translatable as TranslatableContract;
 use Astrotomic\Translatable\Translatable;
+use BeyondCode\Vouchers\Traits\CanRedeemVouchers;
+use BeyondCode\Vouchers\Traits\HasVouchers;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -67,6 +69,7 @@ class Plan extends Model implements TranslatableContract
     use Sluggable;
     use Translatable;
     use ValidatingTrait;
+    use HasVouchers, CanRedeemVouchers;
 
     /**
      * {@inheritdoc}
