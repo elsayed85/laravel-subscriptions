@@ -63,10 +63,9 @@ use Rinvex\Support\Traits\ValidatingTrait;
  * @method static \Illuminate\Database\Eloquent\Builder|\elsayed85\Subscriptions\Models\PlanSubscription whereUserType($value)
  * @mixin \Eloquent
  */
-class PlanSubscription extends Model implements TranslatableContract
+class PlanSubscription extends Model
 {
     use Sluggable;
-    use Translatable;
     use BelongsToPlan;
     use ValidatingTrait;
 
@@ -78,6 +77,7 @@ class PlanSubscription extends Model implements TranslatableContract
         'user_type',
         'plan_id',
         'slug',
+        'name',
         'trial_ends_at',
         'starts_at',
         'ends_at',
@@ -92,6 +92,7 @@ class PlanSubscription extends Model implements TranslatableContract
         'user_id' => 'integer',
         'user_type' => 'string',
         'plan_id' => 'integer',
+        'slug' => 'string',
         'trial_ends_at' => 'datetime',
         'starts_at' => 'datetime',
         'ends_at' => 'datetime',
@@ -155,6 +156,7 @@ class PlanSubscription extends Model implements TranslatableContract
             'ends_at' => 'required|date',
             'cancels_at' => 'nullable|date',
             'canceled_at' => 'nullable|date',
+            'name' => ['required' , 'string' , 'min:2' , "max:70"]
         ]);
     }
 
@@ -170,6 +172,20 @@ class PlanSubscription extends Model implements TranslatableContract
                 $model->setNewPeriod();
             }
         });
+    }
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
     }
 
     /**

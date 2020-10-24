@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 use Illuminate\Database\Schema\Blueprint;
@@ -18,6 +17,8 @@ class CreatePlanSubscriptionsTable extends Migration
             $table->id();
             $table->morphs('user');
             $table->unsignedBigInteger('plan_id');
+            $table->string('name');
+            $table->string('slug');
             $table->dateTime('trial_ends_at')->nullable();
             $table->dateTime('starts_at')->nullable();
             $table->dateTime('ends_at')->nullable();
@@ -28,23 +29,9 @@ class CreatePlanSubscriptionsTable extends Migration
             $table->softDeletes();
 
             // Indexes
+            $table->unique('slug');
             $table->foreign('plan_id')->references('id')->on(config('elsayed85.subscriptions.tables.plans'))
                 ->onDelete('cascade')->onUpdate('cascade');
-        });
-
-        Schema::create('plan_subscriptions_translations', function (Blueprint $table) {
-            // mandatory fields
-            $table->id();
-            $table->string('locale')->index();
-
-            // Foreign key to the main model
-            $table->unsignedBigInteger('subscription_id');
-            $table->unique(['subscription_id', 'locale']);
-            $table->foreign('subscription_id')->references('id')->on(config('elsayed85.subscriptions.tables.plan_subscriptions'))
-                ->onDelete('cascade')->onUpdate('cascade');
-            // Actual fields you want to translate
-            $table->string('name');
-            $table->longText('description')->nullable();
         });
     }
 
